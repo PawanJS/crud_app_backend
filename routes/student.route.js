@@ -40,7 +40,7 @@ router.route('edit-student/:id').get((req, res, next) => {
 });
 
 //* Update Student
-router.get('/update-student').get((req, res, next) => {
+router.get('/update-student/:id').put((req, res, next) => {
   studentSchema.findByIdAndUpdate(
     req.params.id,
     {
@@ -59,7 +59,7 @@ router.get('/update-student').get((req, res, next) => {
 });
 
 //* Delete Student
-router.route('delete-student').get((req, res, next) => {
+router.route('/delete-student/:id').delete((req, res, next) => {
   studentSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);
