@@ -29,7 +29,7 @@ router.route('/').get((req, res, next) => {
 });
 
 //* Get single student
-router.route('edit-student/:id').get((req, res, next) => {
+router.route('/edit-student/:id').get((req, res, next) => {
   studentSchema.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error);
@@ -40,7 +40,7 @@ router.route('edit-student/:id').get((req, res, next) => {
 });
 
 //* Update Student
-router.get('/update-student/:id').put((req, res, next) => {
+router.route('/update-student/:id').put((req, res, next) => {
   studentSchema.findByIdAndUpdate(
     req.params.id,
     {
