@@ -8,7 +8,7 @@ const studentRoute = require('./routes/student.route');
 
 //* Connecting MONGO_DB Database
 mongoose
-  .connect('mongodb://127.0.0.1:27017/mydatabase')
+  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/mydatabase')
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
