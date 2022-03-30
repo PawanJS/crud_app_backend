@@ -1,12 +1,12 @@
-const express = require("express");
-const mongoose = require("mongoose");
-let cors = require("cors");
-const bodyParser = require("body-parser");
-const passport = require("passport");
+const express = require('express');
+const mongoose = require('mongoose');
+let cors = require('cors');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 //* Express Route
-const users = require("./routes/api/users");
-const studentRoute = require("./routes/students/student.route");
+const users = require('./routes/api/users');
+const studentRoute = require('./routes/students/student.route');
 
 const app = express();
 
@@ -17,19 +17,21 @@ app.use(cors());
 
 // Connecting to mongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/auth", { useNewUrlParser: true })
-  .then(() => console.log("Mongo DB successfully Connected!"))
+  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/auth', {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('Mongo DB successfully Connected!'))
   .catch((error) => console.log(`Error occurred ${error}`));
 
 // Passport middleware
 app.use(passport.initialize());
 
 // Passport config
-require("./config/passport.js");
+require('./config/passport.js');
 
 // Routes
-app.use("/api/users", users);
-app.use("/students", studentRoute);
+app.use('/api/users', users);
+app.use('/students', studentRoute);
 
 const port = process.env.PORT || 4000;
 
