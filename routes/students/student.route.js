@@ -1,12 +1,12 @@
-let mongoose = require('mongoose'),
-  express = require('express'),
+let mongoose = require("mongoose"),
+  express = require("express"),
   router = express.Router();
 
 //* Student Model
-let studentSchema = require('../models/student');
+let studentSchema = require("../../models/student");
 
 //* Create Student
-router.route('/create-student').post((req, res, next) => {
+router.route("/create-student").post((req, res, next) => {
   studentSchema.create(req.body, (error, data) => {
     if (error) {
       return next(error);
@@ -18,7 +18,7 @@ router.route('/create-student').post((req, res, next) => {
 });
 
 //* Read Student
-router.route('/').get((req, res, next) => {
+router.route("/").get((req, res, next) => {
   studentSchema.find((error, data) => {
     if (error) {
       return next(error);
@@ -29,7 +29,7 @@ router.route('/').get((req, res, next) => {
 });
 
 //* Get single student
-router.route('/edit-student/:id').get((req, res, next) => {
+router.route("/edit-student/:id").get((req, res, next) => {
   studentSchema.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error);
@@ -40,7 +40,7 @@ router.route('/edit-student/:id').get((req, res, next) => {
 });
 
 //* Update Student
-router.route('/update-student/:id').put((req, res, next) => {
+router.route("/update-student/:id").put((req, res, next) => {
   studentSchema.findByIdAndUpdate(
     req.params.id,
     {
@@ -52,14 +52,14 @@ router.route('/update-student/:id').put((req, res, next) => {
         return next(error);
       } else {
         res.json(data);
-        console.log('Student Updated Successfully!');
+        console.log("Student Updated Successfully!");
       }
     }
   );
 });
 
 //* Delete Student
-router.route('/delete-student/:id').delete((req, res, next) => {
+router.route("/delete-student/:id").delete((req, res, next) => {
   studentSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);

@@ -1,42 +1,36 @@
-let express = require('express');
-let mongoose = require('mongoose');
-let cors = require('cors');
-let bodyParser = require('body-parser');
+const express = require("express");
+const mongoose = require("mongoose");
+let cors = require("cors");
+const bodyParser = require("body-parser");
+const passport = require("passport");
 
 //* Express Route
-const studentRoute = require('./routes/student.route');
-
-//* Connecting MONGO_DB Database
-mongoose
-  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/mydatabase')
-  .then((x) => {
-    console.log(
-      `Connected to Mongo! Database name: "${x.connections[0].name}"`
-    );
-  })
-  .catch((err) => {
-    console.error('Error connecting to mongo', err.reason);
-  });
+const users = require("./routes/api/users");
+const studentRoute = require("./routes/students/student.route");
 
 const app = express();
+
+// Parsing middleware with bodyParser
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/students', studentRoute);
 
-//* Port
+// Connecting to mongoDB
+mongoose
+  .connect("mongodb://127.0.0.1:27017/auth", { useNewUrlParser: true })
+  .then(() => console.log("Mongo DB successfully Connected!"))
+  .catch((error) => console.log(`Error occurred ${error}`));
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require("./config/passport.js");
+
+// Routes
+app.use("/api/users", users);
+app.use("/students", studentRoute);
+
 const port = process.env.PORT || 4000;
-const server = app.listen(port, () => {
-  console.log('Connected to port ' + port);
-});
 
-//* Error 404
-app.use((res, req, next) => {
-  next(createError(404));
-});
-
-app.use(function (error, req, res, next) {
-  console.error(error.message);
-  if (!error.statusCode) error.statusCode = 500;
-  res.status(error.statusCode).send(error.message);
-});
+app.listen(port, () => console.log(`Server is up and running at port ${port}`));
