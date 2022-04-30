@@ -1,19 +1,19 @@
-let mongoose = require("mongoose");
+let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let studentSchema = new Schema(
   {
     name: {
-      type: "String",
+      type: 'String',
     },
     email: {
-      type: "String",
+      type: 'String',
     },
     rollNo: {
-      type: "Number",
+      type: 'Number',
     },
   },
-  { collection: "students" }
+  { collection: 'students' }
 );
 
-module.exports = mongoose.model("student", studentSchema);
+module.exports = mongoose.model('student', studentSchema);
